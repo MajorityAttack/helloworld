@@ -37,3 +37,8 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.7'
     distributionUrl = distributionUrl.replace("bin", "all")
 }
+
+task cpapk(type: Copy, group: "Custom", description: "Copies apk to the dest directory") {
+    from "app/build/outputs/apk/debug/app-x86-debug.apk"
+    into "/home/dev/tmp/build/"
+}
