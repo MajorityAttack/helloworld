@@ -9,6 +9,8 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import {NativeModules} from 'react-native';
+var HelloWorld = NativeModules.HelloWorld;
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -22,10 +24,8 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.welcome}>G G</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text>Invoke native Java code</Text>
+        <Text onPress={()=>HelloWorld.show('Awesome',HelloWorld.LONG)}>Click</Text>
       </View>
     );
   }
