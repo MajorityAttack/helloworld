@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.uimanager.IllegalViewOperationException;
+import com.facebook.react.bridge.Promise;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -44,5 +45,10 @@ public class HelloWorldModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void show(String message, int duration) {
       Toast.makeText(getReactApplicationContext(), message, duration).show();
+    }
+
+    @ReactMethod
+    public void hello(Promise promise) {
+      promise.resolve("Hello!");
     }
 }

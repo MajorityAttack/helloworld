@@ -21,7 +21,19 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  async hello() {
+    try {
+        let helloWorldStr = await HelloWorld.hello();
+        console.log(helloWorldStr);
+    } catch (e) {
+        console.error(e);
+    }
+  }
+
   render() {
+    this.hello();
+
     return (
       <View style={styles.container}>
         <Text>Invoke native Java code</Text>
