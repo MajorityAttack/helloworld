@@ -14,6 +14,10 @@ import java.util.HashMap;
  
 public class HelloWorldModule extends ReactContextBaseJavaModule {
  
+    static {
+        System.loadLibrary("native-lib");
+    }
+
     public HelloWorldModule(ReactApplicationContext reactContext) {
         super(reactContext); //required by React Native
     }
@@ -51,4 +55,15 @@ public class HelloWorldModule extends ReactContextBaseJavaModule {
     public void hello(Promise promise) {
       promise.resolve("Hello!");
     }
+
+    @ReactMethod
+    public void helloJNI(Promise promise) {
+      promise.resolve(stringFromJNI());
+    }
+
+    /**
+     * A native method that is implemented by the 'native-lib' native library,
+     * which is packaged with this application.
+     */
+    public native String stringFromJNI();
 }

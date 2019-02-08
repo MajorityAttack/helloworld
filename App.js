@@ -31,8 +31,18 @@ export default class App extends Component<Props> {
     }
   }
 
+  async helloJNI() {
+    try {
+        let helloWorldStr = await HelloWorld.helloJNI();
+        console.log(helloWorldStr);
+    } catch (e) {
+        console.error(e);
+    }
+  }
+
   render() {
     this.hello();
+    this.helloJNI();
 
     return (
       <View style={styles.container}>
