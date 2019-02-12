@@ -31,6 +31,9 @@ local.properties
 *.iml
 .externalNativeBuild/
 
+#Watchman
+.watchmanconfig
+
 # node.js
 #
 node_modules/

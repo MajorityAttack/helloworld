@@ -16,6 +16,7 @@ public class HelloWorldModule extends ReactContextBaseJavaModule {
  
     static {
         System.loadLibrary("native-lib");
+        System.loadLibrary("grpc-helloworld");
     }
 
     public HelloWorldModule(ReactApplicationContext reactContext) {
@@ -61,9 +62,14 @@ public class HelloWorldModule extends ReactContextBaseJavaModule {
       promise.resolve(stringFromJNI());
     }
 
+    @ReactMethod
+    public void helloGrpc(Promise promise) {
+      promise.resolve(stringFromGrpc());
+    }
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+    public native String stringFromGrpc();
 }

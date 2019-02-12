@@ -40,9 +40,19 @@ export default class App extends Component<Props> {
     }
   }
 
+  async helloGrpc() {
+    try {
+        let helloWorldStr = await HelloWorld.helloGrpc();
+        console.log(helloWorldStr);
+    } catch (e) {
+        console.error(e);
+    }
+  }
+
   render() {
     this.hello();
     this.helloJNI();
+    this.helloGrpc();
 
     return (
       <View style={styles.container}>

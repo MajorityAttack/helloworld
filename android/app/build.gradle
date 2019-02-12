@@ -84,7 +84,17 @@ project.ext.react = [
  
     // whether to bundle JS and assets in release mode
     bundleInRelease: true,
+
+    // by default the gradle tasks are skipped if none of the JS files or assets change; this means
+    // that we don't look at files in android/ or ios/ to determine whether the tasks are up to
+    // date; if you have any other folders that you want to ignore for performance reasons (gradle
+    // indexes the entire tree), add them here. Alternatively, if you have JS files in android/
+    // for example, you might want to remove it from here.
+    //inputExcludes: ["third_party/**", "ios/**"],
+    inputExcludes: ["android/**", "ios/**", "third_party/**"],
+
 ]
+
 
 apply from: "../../node_modules/react-native/react.gradle"
 
@@ -113,9 +123,26 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+	testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++14"
+                //cppFlags "-std=c++14"
+                // The paths to the protoc and grpc_cpp_plugin binaries on the host system (codegen
+                // is not cross-compiled to Android)
+                def protoc = project.hasProperty('protoc') ?
+                        project.property('protoc') : '/usr/local/bin/protoc'
+                def grpc_cpp_plugin = project.hasProperty('grpc_cpp_plugin') ?
+                        project.property('grpc_cpp_plugin') : '/usr/local/bin/grpc_cpp_plugin'
+
+                cppFlags "-std=c++14 -frtti -fexceptions"
+                arguments '-DANDROID_STL=c++_static'
+                arguments '-DRUN_HAVE_POSIX_REGEX=0'
+                arguments '-DRUN_HAVE_STD_REGEX=0'
+                arguments '-DRUN_HAVE_STEADY_CLOCK=0'
+                arguments '-Dprotobuf_BUILD_PROTOC_BINARIES=off'
+                arguments '-DgRPC_BUILD_CODEGEN=off'
+                arguments '-Dhelloworld_PROTOBUF_PROTOC_EXECUTABLE=' + protoc
+                arguments '-Dhelloworld_GRPC_CPP_PLUGIN_EXECUTABLE=' + grpc_cpp_plugin
             }
         }
     }
@@ -134,12 +161,14 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a"
         }
     }
+
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
