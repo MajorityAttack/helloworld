@@ -30,6 +30,8 @@ build/
 local.properties
 *.iml
 .externalNativeBuild/
+#Release
+*.keystore
 
 #Watchman
 .watchmanconfig

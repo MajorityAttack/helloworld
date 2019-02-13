@@ -83,7 +83,9 @@ project.ext.react = [
     bundleInDebug: true,
  
     // whether to bundle JS and assets in release mode
-    bundleInRelease: true,
+    // Notice: the bundle is opened in Release mode, There is no need to set it with true. !!!!!
+    // When ./gradlew assembleRelease issued, Task :app:bundleReleaseJsAndAssets is include defaultly.
+    // bundleInRelease: true,
 
     // by default the gradle tasks are skipped if none of the JS files or assets change; this means
     // that we don't look at files in android/ or ios/ to determine whether the tasks are up to
@@ -162,10 +164,22 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 

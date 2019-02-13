@@ -38,7 +38,13 @@ task wrapper(type: Wrapper) {
     distributionUrl = distributionUrl.replace("bin", "all")
 }
 
-task cpapk(type: Copy, group: "Custom", description: "Copies apk to the dest directory") {
+task cpDebug(type: Copy, group: "Custom", description: "Copies Debug apk to the dest directory") {
     from "app/build/outputs/apk/debug/app-x86-debug.apk"
     into "/home/dev/tmp/build/"
 }
+
+task cpRel(type: Copy, group: "Custom", description: "Copies Relasse apk to the dest directory") {
+    from "app/build/outputs/apk/release/app-x86-release.apk"
+    into "/home/dev/tmp/build/"
+}
+
